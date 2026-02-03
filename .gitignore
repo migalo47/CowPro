@@ -1,0 +1,31 @@
+# Flutter
+build/
+.dart_tool/
+.packages
+.pub-cache/
+
+# Android
+android/.gradle/
+android/app/build/
+
+# iOS
+ios/Pods/
+ios/Runner.xcworkspace
+
+# Java / Spring
+target/
+*.log
+
+# Environment
+.env
+*.env
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+

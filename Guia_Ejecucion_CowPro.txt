@@ -1,0 +1,125 @@
+GUÍA DE INICIO PARA EJECUTAR EL PROYECTO COWPRO (SIMULACIÓN / DEFENSA TFG)
+Autor: Miguel Alonso
+Proyecto: CowPro (App de gestión de reservas con Flutter + Spring Boot + FastAPI + MySQL)
+Fecha: Mayo 2025
+
+-------------------------------------------------------
+🔧 REQUISITOS PREVIOS (SO: Windows 10/11, 64 bits)
+-------------------------------------------------------
+
+1. Instalar Docker Desktop:
+   - Descargar desde: https://www.docker.com/products/docker-desktop
+   - Activar WSL2 (Docker lo pedirá si no está activo)
+   - Reiniciar después de la instalación
+   - Comprobar con: docker --version
+
+2. Instalar Git:
+   - Descargar desde: https://git-scm.com/download/win
+
+-------------------------------------------------------
+OPCIONAL - INSTALAR FLUTTER EN WINDOWS
+-------------------------------------------------------
+1. Instala Git: https://git-scm.com/download/win
+
+2. Instala Android Studio: https://developer.android.com/studio
+   - Incluye Android SDK Platform (API 35), Build Tools, Platform-Tools, Emulator
+
+3. Instala VS Code y la extensión Flutter (opcional)
+
+4. Instala Flutter SDK:
+   - Abre VS Code -> Ctrl+Shift+P -> Flutter: New Project
+   - VS Code descargará Flutter y te preguntará si añadirlo al PATH
+
+5. Acepta licencias:
+   flutter doctor --android-licenses
+
+6. Verifica instalación:
+   flutter doctor
+
+7. Emulador Android:
+   - Android Studio -> Device Manager -> Create Device -> Iniciar AVD
+
+
+--------------------------------------
+📦 CÓMO EJECUTAR EL PROYECTO COMPLETO
+--------------------------------------
+
+1. Clonar o copiar la carpeta completa del proyecto `CowProProject/` en cualquier ruta. Esta carpeta debe contener:
+
+   - docker-compose.yml
+   - script_definitivo.sql
+   - /sharechannel_backend  ← (Spring Boot)
+   - /tuya-lock-api         ← (FastAPI)
+   - /flutter_frontend      ← (Flutter, sin Docker)
+
+2. Abrir una terminal de Docker Desktop o PowerShell y navegar a la carpeta del proyecto:
+
+   cd ruta\a\CowProProject
+
+3. Lanzar todo con:
+
+   docker compose up -d --build
+
+4. Esperar unos segundos (entre 15 y 30 s). Comprobar que los contenedores están activos:
+
+   docker ps
+
+   Debes ver:
+   - cowpro-backend (puerto 8080)
+   - cowpro-fastapi (puerto 8000)
+   - cowpro-mysql (puerto 3306)
+
+5. Si la base de datos está vacía, cargar los datos iniciales (solo una vez):
+
+   docker exec -i cowpro-mysql mysql -uroot -p1234 cowpro < script_definitivo.sql
+
+------------------------------------
+📱 CÓMO VER LA APP EN FLUTTER
+------------------------------------
+
+1. Abrir Android Studio o VS Code
+2. Abrir la carpeta /flutter_frontend
+3. Ejecutar en un emulador o dispositivo Android
+4. Asegúrate de que las llamadas a backend apunten a: http://localhost:8080
+
+------------------------------------
+🛑 CÓMO PARAR TODO
+------------------------------------
+
+Para detener los contenedores (sin borrar nada):
+
+   docker compose down
+
+⚠️ No usar `down -v` o perderás la base de datos
+
+------------------------------------
+✅ COMPROBACIONES RÁPIDAS
+------------------------------------
+
+- Backend (Spring Boot): http://localhost:8080/api/auth/login
+- FastAPI (cerradura Tuya): http://localhost:8000/docs
+- MySQL accesible desde Workbench en:
+  - Host: 127.0.0.1
+  - Puerto: 3306
+  - Usuario: root
+  - Contraseña: 1234
+
+------------------------------------
+📝 NOTAS FINALES
+------------------------------------
+
+- No necesitas tener IntelliJ ni Android Studio para ejecutar el backend y FastAPI
+- Solo necesitas Docker Desktop funcionando
+- El script SQL solo se ejecuta una vez
+- Puedes hacer pruebas (crear usuarios, reservas...) y se conservarán si no usas `down -v`
+
+
+
+----------COMANDO UTILES------------
+
+sudo docker logs cowpro-backend --> Obtener el registro de logs del backend
+
+
+
+
+

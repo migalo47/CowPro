@@ -1,0 +1,4 @@
+fastapi
+uvicorn
+pycryptodome
+tuya-iot-py-sdk
